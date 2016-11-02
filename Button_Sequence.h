@@ -21,6 +21,7 @@ public:
   Button_Sequence();
   void set_solution(std::vector<T>);
   bool add_attempt(T);  // Add attempt to sequence and return bool success
+  bool on_success();
   bool is_successful();
   void debug_print_memory();
 
@@ -28,6 +29,7 @@ private:
   void debug_print_vector(std::vector<T>);
   void reset_memory();
 
+  bool announced_success;
   std::vector<T> m_solution;
   std::vector<T> m_memory;
 };
@@ -36,6 +38,7 @@ template <typename T>
 Button_Sequence<T>::Button_Sequence()
   : m_solution({})
   , m_memory({})
+  , announced_success(true)
 {
 }
 
@@ -58,13 +61,29 @@ bool Button_Sequence<T>::add_attempt(T attempt)
   m_memory.swap(new_memory);
   CORTEX_DEBUG_PRINT("Success? ");
   CORTEX_DEBUG_PRINTLN(is_successful());
-  return is_successful();
+  if (is_successful()) {
+    announced_success = false;
+    return true;
+  } else {
+    return false;
+  }
 }
 
 template <typename T>
 bool Button_Sequence<T>::is_successful()
 {
   return m_solution == m_memory;
+}
+
+template <typename T>
+bool Button_Sequence<T>::on_success()
+{
+  if (is_successful() && announced_success == false) {
+    announced_success = true;
+    return true;
+  } else {
+    return false;
+  }
 }
 
 template <typename T>
