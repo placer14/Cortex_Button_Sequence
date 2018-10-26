@@ -4,8 +4,8 @@
   which responds to == for comparison of a successful solution.
 
   Written by Mike Greenberg <mg@nobulb.com>
-  All rights reserved.
-  (c)2016
+  MIT License.
+  (c)2016-2018
 *******************/
 
 #include "Cortex_Debug.h"
